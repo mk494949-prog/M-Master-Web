@@ -197,9 +197,46 @@ footer{text-align:center;padding:20px 0;font-size:9px;color:rgba(160,144,112,.2)
   0%,100%{box-shadow:0 0 10px rgba(212,175,55,.15),0 4px 20px rgba(0,0,0,.3);}
   50%{box-shadow:0 0 30px rgba(212,175,55,.5),0 4px 30px rgba(212,175,55,.15);}
 }
-</style>
+</style><script src="https://cdn.jsdelivr.net/npm/lunar-javascript/lunar.js"></script>
 </head>
-<body>
+<script src="https://cdn.jsdelivr.net/npm/lunar-javascript/lunar.js"></script>
+
+<script>
+// 2. 農曆與五行能量計算模組
+const MasterLunar = {
+    // 取得農曆資訊
+    getDetail(date = new Date()) {
+        const d = Solar.fromDate(date);
+        const lunar = d.getLunar();
+        
+        return {
+            lunarDate: `${lunar.getMonthInChinese()}月${lunar.getDayInChinese()}`,
+            ganZhi: `${lunar.getYearInGanZhi()}(${lunar.getYearShengXiao()})年`,
+            eightWords: lunar.getEightChar(), // 八字，能量掃描的基石
+            jieQi: lunar.getJieQi() || "平氣"
+        };
+    },
+
+    // 獨家亮點：即時能量掃描演算法
+    scanEnergy(date = new Date()) {
+        const info = this.getDetail(date);
+        // 基於天干地支五行的權重計算法
+        // 這裡會與 JSON 資料庫中的「基礎能量值」進行對比運算
+        console.log("正在執行能量掃描...", info.ganZhi);
+        
+        return {
+            wood: Math.floor(Math.random() * 100), // 後續接入真實五行演算法
+            fire: Math.floor(Math.random() * 100),
+            earth: Math.floor(Math.random() * 100),
+            gold: Math.floor(Math.random() * 100),
+            water: Math.floor(Math.random() * 100)
+        };
+    }
+};
+
+// 測試呼叫
+console.log("今日農曆資訊：", MasterLunar.getDetail());
+</script><body>
 <div class="cosmos-bg"></div>
 <div class="stars-layer"></div>
 <canvas id="particleCanvas"></canvas>
