@@ -3,229 +3,300 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>運M大師｜每日能量天氣掃描</title>
+<title>運M大師 2.0｜靈魂伴侶能量掃描</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;900&family=Cinzel+Decorative:wght@400;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/lunar-javascript/lunar.js"></script>
 <style>
-:root {
-  --gold:#D4AF37;--gold-light:#FFD700;--gold-dim:#9a7d1e;
-  --cosmos:#050510;--cosmos-mid:#0d0d20;--cosmos-surface:#14142b;
-  --text-bright:#f5f0e8;--text-dim:#a09070;
+:root{
+  --gold:#D4AF37;--gold-light:#FFD700;--gold-dim:#9a7d1e;--gold-pale:#f5e6c0;
+  --cosmos:#03030f;--cosmos-2:#07071a;--cosmos-3:#0d0d24;--cosmos-surface:#13132e;
+  --text-bright:#f5f0e8;--text-dim:#a09070;--text-muted:#5a5040;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{background:var(--cosmos);color:var(--text-bright);font-family:'Noto Sans TC',sans-serif;min-height:100vh;overflow-x:hidden;}
-.cosmos-bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 20% 50%,rgba(30,10,80,.5) 0%,rgba(5,5,16,1) 100%);}
+body{background:var(--cosmos);color:var(--text-bright);font-family:'Noto Sans TC',sans-serif;font-size:20px;min-height:100vh;overflow-x:hidden;}
+.cosmos-bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 20% 50%,var(--cosmos-3) 0%,var(--cosmos) 100%);}
 .container{position:relative;z-index:1;max-width:500px;margin:0 auto;padding:20px;text-align:center;}
-header{padding:40px 0;}
-.logo{font-family:'Cinzel Decorative',cursive;font-size:2.5rem;color:var(--gold);text-shadow:0 0 20px rgba(212,175,55,.5);margin-bottom:10px;}
-.subtitle{font-size:.9rem;letter-spacing:4px;color:var(--text-dim);text-transform:uppercase;}
-.scan-card{background:var(--cosmos-surface);border:1px solid rgba(212,175,55,.2);border-radius:30px;padding:40px 20px;margin-top:20px;box-shadow:0 20px 50px rgba(0,0,0,.5);backdrop-filter:blur(10px);}
-.scanner-ui{position:relative;width:200px;height:200px;margin:0 auto 30px;}
-.scan-circle{position:absolute;inset:0;border:2px solid var(--gold-dim);border-radius:50%;opacity:.3;}
-.scan-bar{position:absolute;width:100%;height:2px;background:var(--gold-light);box-shadow:0 0 15px var(--gold-light);top:50%;left:0;transform:translateY(-50%);display:none;}
-.btn-scan{background:linear-gradient(135deg,var(--gold-dim),var(--gold));color:var(--cosmos);border:none;padding:15px 40px;border-radius:50px;font-size:1.1rem;font-weight:600;cursor:pointer;transition:.3s;box-shadow:0 10px 20px rgba(212,175,55,.3);animation:pulse 2s infinite;}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(212,175,55,0.7);}70%{box-shadow:0 0 0 15px rgba(212,175,55,0);}100%{box-shadow:0 0 0 0 rgba(212,175,55,0);}}
-.result-area{display:none;margin-top:30px;text-align:left;animation:fadeIn 1s ease;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-.weather-tag{display:inline-block;padding:5px 15px;border-radius:50px;font-size:.8rem;margin-bottom:15px;font-weight:600;}
-.weather-title{font-family:'Noto Serif TC',serif;font-size:1.8rem;margin-bottom:15px;color:var(--gold-light);}
-.color-dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;border:1px solid rgba(255,255,255,0.3);}
-.cta-box{margin-top:40px;padding:20px;border-top:1px solid rgba(212,175,55,.1);}
-.btn-line{display:inline-block;width:100%;background:none;border:1px solid var(--gold);color:var(--gold);padding:12px;border-radius:10px;text-decoration:none;font-size:.9rem;transition:.3s;margin-top:15px;}
-.btn-line:hover{background:var(--gold);color:var(--cosmos);}
-.footer-mama{margin-top:60px;padding:40px 0;border-top:1px solid rgba(212,175,55,0.1);color:var(--text-dim);font-size:0.85rem;}
+
+/* 頂部標題放大 */
+header{padding:50px 0 30px;}
+.logo-title{font-size:1.2rem;letter-spacing:6px;color:var(--gold-dim);margin-bottom:15px;font-weight:300;}
+.main-title{font-family:'Cinzel Decorative',cursive;font-size:3rem;color:var(--gold);text-shadow:0 0 30px rgba(212,175,55,0.6);margin-bottom:15px;font-weight:700;}
+.quote-top{font-family:'Noto Serif TC',serif;font-size:1.3rem;color:var(--text-bright);letter-spacing:2px;text-shadow:0 0 10px rgba(255,255,255,0.3);line-height:1.6;}
+
+.scan-card{background:var(--cosmos-surface);border:1px solid rgba(212,175,55,0.25);border-radius:40px;padding:50px 25px;margin-top:30px;box-shadow:0 30px 60px rgba(0,0,0,0.8);backdrop-filter:blur(15px);}
+.input-group{margin-bottom:30px;}
+label{display:block;color:var(--text-dim);font-size:0.9rem;margin-bottom:10px;letter-spacing:2px;}
+input[type="date"]{background:rgba(255,255,255,0.05);border:1px solid var(--gold-dim);border-radius:15px;color:var(--text-bright);padding:12px 20px;font-size:1.1rem;width:100%;outline:none;text-align:center;}
+
+.scanner-ui{position:relative;width:220px;height:220px;margin:0 auto 40px;}
+.scan-circle{position:absolute;inset:0;border:2px solid var(--gold-dim);border-radius:50%;opacity:0.3;animation:pulseCircle 4s infinite;}
+@keyframes pulseCircle{0%,100%{transform:scale(1);opacity:0.3;}50%{transform:scale(1.05);opacity:0.5;}}
+.scan-bar{position:absolute;width:100%;height:3px;background:linear-gradient(90deg,transparent,var(--gold-light),transparent);box-shadow:0 0 20px var(--gold-light);top:0;left:0;display:none;z-index:2;}
+canvas#particleCanvas{position:absolute;inset:0;z-index:1;}
+
+.btn-scan{background:linear-gradient(135deg,var(--gold-dim),var(--gold));color:var(--cosmos);border:none;padding:18px 50px;border-radius:60px;font-size:1.2rem;font-weight:900;cursor:pointer;transition:0.4s;box-shadow:0 10px 30px rgba(212,175,55,0.4);letter-spacing:2px;}
+.btn-scan:hover{transform:scale(1.05);box-shadow:0 15px 40px rgba(212,175,55,0.6);}
+
+/* 結果區 */
+.result-area{display:none;margin-top:40px;text-align:left;animation:slideUp 0.8s ease-out;}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+
+.weather-tag{display:inline-block;padding:6px 20px;border-radius:50px;font-size:0.9rem;margin-bottom:20px;font-weight:900;letter-spacing:1px;box-shadow:0 4px 10px rgba(0,0,0,0.3);}
+.weather-title{font-family:'Noto Serif TC',serif;font-size:2.2rem;margin-bottom:20px;color:var(--gold-light);line-height:1.3;}
+.analysis-box{background:rgba(255,255,255,0.03);padding:25px;border-radius:25px;margin-bottom:25px;border:1px solid rgba(212,175,55,0.15);}
+.demon-title{color:var(--gold);font-weight:600;font-size:1.1rem;margin-bottom:10px;display:flex;align-items:center;}
+.demon-title::before{content:'✨';margin-right:8px;}
+
+/* 五行比例圓球 */
+.color-ball-group{display:flex;gap:15px;margin:20px 0;}
+.color-ball{width:18px;height:18px;border-radius:50%;box-shadow:0 0 10px rgba(255,255,255,0.2);}
+
+/* 修煉卡片化 */
+.task-card{background:linear-gradient(145deg, var(--cosmos-surface), #1a1a3d);border:2px solid var(--gold-dim);padding:30px;border-radius:30px;margin-top:30px;box-shadow:0 0 30px rgba(212,175,55,0.2);position:relative;overflow:hidden;}
+.task-card::after{content:'DAILY TASK';position:absolute;top:10px;right:-20px;transform:rotate(30deg);font-size:0.7rem;color:var(--gold);opacity:0.3;font-weight:900;}
+
+.btn-line{display:inline-block;width:100%;background:none;border:2px solid var(--gold);color:var(--gold);padding:18px;border-radius:20px;text-decoration:none;font-size:1.1rem;font-weight:900;transition:0.3s;margin-top:30px;text-align:center;animation:glow 2s infinite;}
+@keyframes glow{0%,100%{box-shadow:0 0 5px var(--gold-dim);}50%{box-shadow:0 0 20px var(--gold);}}
+
+footer{margin-top:80px;padding:40px 0;color:var(--text-muted);font-size:0.8rem;letter-spacing:1px;}
 </style>
 </head>
 <body>
 <div class="cosmos-bg"></div>
 <div class="container">
   <header>
-    <div class="logo">M-Master</div>
-    <div class="subtitle">運M大師 · 能量天氣掃描</div>
+    <div class="logo-title">易經能量 × 人工智慧</div>
+    <div class="main-title">M-Master</div>
+    <div class="quote-top">你的意念在哪，能量就在哪</div>
   </header>
+
   <div class="scan-card">
-    <div id="instruction">「靜心 3 秒，感應當下波動」</div>
+    <div class="input-group">
+      <label>輸入陽曆出生日期，同步內在頻率</label>
+      <input type="date" id="birthday" value="1980-01-01">
+    </div>
+
+    <div id="instruction" style="margin-bottom:25px; color:var(--text-dim);">「靜心 3 秒，感應當下波動」</div>
+    
     <div class="scanner-ui" id="scanner">
       <div class="scan-circle"></div>
       <div class="scan-bar" id="scanBar"></div>
-      <canvas id="particleCanvas" style="position:absolute;inset:0;"></canvas>
+      <canvas id="particleCanvas"></canvas>
+      <div id="dynamicLunar" style="position:absolute; bottom:-30px; width:100%; color:var(--gold); font-size:0.85rem; letter-spacing:2px; font-weight:600;"></div>
     </div>
-    <button class="btn-scan" id="scanBtn" onclick="startScan()">開始能量掃描</button>
-    
+
+    <button class="btn-scan" id="scanBtn" onclick="startScan()">啟動能量掃描</button>
+
     <div class="result-area" id="resultArea">
       <div id="weatherTag" class="weather-tag"></div>
       <h2 id="weatherTitle" class="weather-title"></h2>
-      <p id="weatherDesc" style="color:var(--text-dim);line-height:1.6;margin-bottom:20px;"></p>
       
-      <div style="background:rgba(255,255,255,0.05);padding:15px;border-radius:15px;margin-bottom:20px;">
-        <div style="font-size:0.8rem;color:var(--text-dim);margin-bottom:10px;">✦ 今日能量建議</div>
-        <div id="outfitAdvice" style="margin-bottom:8px;font-size:0.95rem;"></div>
-        <div id="foodAdvice" style="font-size:0.95rem;"></div>
+      <div class="analysis-box">
+        <div class="demon-title">心魔診斷</div>
+        <p id="demonDesc" style="color:var(--text-bright); line-height:1.7; font-size:1.1rem;"></p>
       </div>
 
-      <div id="quoteBlock" style="border-left:2px solid var(--gold);padding-left:15px;margin:25px 0;">
-        <p id="quoteText" style="font-style:italic;color:var(--gold-light);"></p>
+      <div class="analysis-box" style="border-color:rgba(255,255,255,0.05);">
+        <div class="demon-title" style="color:var(--text-dim);">今日能量圖譜</div>
+        <canvas id="energyPie" width="200" height="200" style="margin:20px auto; display:block;"></canvas>
+        <div id="pieLegend" style="font-size:0.9rem; color:var(--text-dim); display:flex; justify-content:center; gap:10px; flex-wrap:wrap;"></div>
       </div>
 
-      <div class="cta-box">
-        <button class="btn-line" onclick="openLineConsult()">⚡ 諮詢專屬能量教練 (LINE)</button>
-        <button class="btn-line" style="border-color:rgba(212,175,55,0.4);" onclick="shareResult()">✦ 分享我的能量天氣</button>
+      <div class="task-card">
+        <div class="demon-title">每日修煉：事上練</div>
+        <p id="practiceTask" style="color:var(--gold-pale); line-height:1.6; font-style:italic;"></p>
       </div>
+
+      <div style="margin-top:30px;">
+        <div class="demon-title" style="color:var(--text-dim); justify-content:center;">運M大師能量金句</div>
+        <p id="masterQuote" style="font-family:'Noto Serif TC',serif; font-size:1.4rem; color:var(--gold-light); margin-top:10px; line-height:1.5;"></p>
+      </div>
+
+      <button class="btn-line" onclick="openLineConsult()">解鎖今日完整化解方案 (LINE 諮詢)</button>
     </div>
   </div>
 
-  <footer class="footer-mama">
+  <footer>
     <p>「大愛無疆，能量隨行」</p>
-    <p style="margin-top:10px;font-size:0.75rem;opacity:0.6;">© 2026 M-Master AI. Powered by Magic Mama</p>
+    <p style="margin-top:10px; opacity:0.5;">© 2026 M-Master AI. Powered by Magic Mama</p>
   </footer>
 </div>
 
 <script>
 // ═══════════════════════════
-// 1. 農曆與五行核心模組 (The Brain)
+// 1. 設定區 (在此替換 ID)
 // ═══════════════════════════
-const MasterLunar = {
-    getDetail(date = new Date()) {
-        const d = Solar.fromDate(date);
-        const lunar = d.getLunar();
-        return {
-            lunarDate: `${lunar.getMonthInChinese()}月${lunar.getDayInChinese()}`,
-            ganZhi: `${lunar.getYearInGanZhi()}(${lunar.getYearShengXiao()})年`,
-            eightWords: lunar.getEightChar(),
-            jieQi: lunar.getJieQi() || "平氣"
-        };
-    },
-    scanEnergy() {
-        // 未來將接入真實資料庫運算，目前先以隨機模擬
-        return {
-            gold: Math.floor(Math.random() * 40) + 60, 
-            wood: Math.floor(Math.random() * 100),
-            water: Math.floor(Math.random() * 100),
-            fire: Math.floor(Math.random() * 100),
-            earth: Math.floor(Math.random() * 100)
-        };
-    }
-};
+const lineId = '@vaq9397i'; // 已自動更新為 Magic Mama 的帳號
 
 // ═══════════════════════════
-// 2. 能量天氣資料庫
+// 2. 智慧資料庫
 // ═══════════════════════════
 const energyFields = [
   { 
-    code: 'TY', name: '天醫', color: '#D4AF37', weatherTitle: '極光時分 ✦ 財祿降臨', 
-    weatherDesc: '磁場正處於高度擴張期，<em>適合進行決策與財富規劃</em>。',
-    outfit: '亮金色、米白色', food: '溫性食材、蜂蜜水',
-    quotes: ["大愛是吸引財富最快的頻率。","今日你的光芒將照亮他人。"]
+    name: '天醫', freq: '極光', color: '#D4AF37', title: '極光時分 ✦ 財祿降臨', 
+    demon: '「慾望之賊」：當下好運正旺，心卻易生貪婪。',
+    advice: '一切有為法，如夢幻泡影。財富是流動的能量，今日宜布施。',
+    task: '今日嘗試清理一件舊物，為新的福報騰出空間。',
+    quote: '讓你痛苦的從來不是事情，而是你的心。'
   },
   { 
-    code: 'SQ', name: '生氣', color: '#4CAF50', weatherTitle: '微雨轉晴 ✦ 貴人顯發', 
-    weatherDesc: '能量流動順暢，適合<em>開啟對話與拓展人際</em>。',
-    outfit: '嫩草綠、墨綠色', food: '新鮮蔬果、綠茶',
-    quotes: ["溫柔的能量，能融化最堅硬的冰。","生命力正從你的內心萌芽。"]
+    name: '生氣', freq: '微雨', color: '#4CAF50', title: '微雨轉晴 ✦ 貴人顯發', 
+    demon: '「我執之賊」：過於在意他人評價，導致內耗。',
+    advice: '應無所住而生其心。貴人就在身邊，只需放下防備。',
+    task: '主動聯絡一位好久不見的朋友，傳遞一份善意。',
+    quote: '心是什麼樣，世界就是什麼樣。'
+  },
+  { 
+    name: '延年', freq: '清風', color: '#2196F3', title: '清風拂面 ✦ 官爵穩固', 
+    demon: '「情緒之賊」：壓力過大，導致溝通生硬。',
+    advice: '功成身退，天之道也。穩定節奏，不急於一時。',
+    task: '練習深呼吸三分鐘，對鏡子裡的自己微笑。',
+    quote: '最好的自律是斷、捨、離。'
+  },
+  { 
+    name: '伏位', freq: '晨霧', color: '#9E9E9E', title: '晨霧靜候 ✦ 蓄勢待發', 
+    demon: '「恐懼之賊」：止步不前，害怕未知的改變。',
+    advice: '事上練，開悟的唯一途徑。在小事中找回掌控感。',
+    task: '完成一件拖延已久的小事，拿回行動的主導權。',
+    quote: '你的意念在哪，能量就在哪。'
   }
-  // ... 其他磁場資料略
 ];
 
 // ═══════════════════════════
-// 3. 掃描邏輯與動畫
+// 3. 掃描與計算邏輯
 // ═══════════════════════════
-let currentField = null;
+let currentResult = null;
 
 function startScan() {
+  const birthday = document.getElementById('birthday').value;
+  if(!birthday) return alert('請先輸入生日');
+  
   const btn = document.getElementById('scanBtn');
   const bar = document.getElementById('scanBar');
   const inst = document.getElementById('instruction');
   const res = document.getElementById('resultArea');
-  
+  const lunarText = document.getElementById('dynamicLunar');
+
   btn.style.display = 'none';
   res.style.display = 'none';
   bar.style.display = 'block';
   inst.textContent = '正在校準能量磁場...';
 
+  // 動態農曆特效
+  const d = Solar.fromDate(new Date());
+  const l = d.getLunar();
+  lunarText.textContent = `${l.getYearInGanZhi()}年 · ${l.getMonthInChinese()}月 · ${l.getDayInChinese()}`;
+
   let progress = 0;
   const timer = setInterval(() => {
     progress += 2;
     bar.style.top = progress + '%';
-    if(progress === 30) inst.textContent = '感應內在波動中...';
-    if(progress === 70) inst.textContent = '同步流日數據...';
-    
+    if(progress === 40) inst.textContent = '讀取先天命格數據...';
+    if(progress === 80) inst.textContent = '對接當下宇宙頻率...';
     if(progress >= 100) {
       clearInterval(timer);
-      finishScan();
+      bar.style.display = 'none';
+      finishScan(birthday);
     }
-  }, 50);
+  }, 30);
+  initParticles('#D4AF37');
 }
 
-function finishScan() {
-  const info = MasterLunar.getDetail();
-  console.log("掃描成功：", info);
+function finishScan(birthday) {
+  // 確定性演算法：用生日日期作為種子
+  const dateParts = birthday.split('-');
+  const seed = parseInt(dateParts[0]) + parseInt(dateParts[1]) * 10 + parseInt(dateParts[2]) * 100;
   
-  const field = energyFields[Math.floor(Math.random()*energyFields.length)];
-  currentField = field;
+  // 根據種子挑選結果，確保不同生日得出不同文字
+  const fieldIndex = seed % energyFields.length;
+  const field = energyFields[fieldIndex];
+  currentResult = field;
   
-  document.getElementById('scanBar').style.display = 'none';
-  document.getElementById('instruction').textContent = '掃描完成：今日能量報告';
+  // 能量指數 (根據日期微調)
+  const score = 65 + (seed % 30); 
+
+  // 更新介面
+  document.getElementById('instruction').textContent = '掃描完成：今日能量天氣';
   document.getElementById('resultArea').style.display = 'block';
   
-  // 渲染結果
   const tag = document.getElementById('weatherTag');
   tag.style.background = field.color;
-  tag.style.color = '#fff';
-  tag.textContent = field.name + ' 磁場';
+  tag.textContent = `${field.name}磁場 · 指數 ${score}`;
   
-  document.getElementById('weatherTitle').textContent = field.weatherTitle;
-  document.getElementById('weatherDesc').innerHTML = field.weatherDesc;
+  document.getElementById('weatherTitle').textContent = field.title;
+  document.getElementById('demonDesc').textContent = field.demon;
+  document.getElementById('practiceTask').textContent = field.task;
+  document.getElementById('masterQuote').textContent = field.quote;
+
+  // 繪製五行餅圖 (也與生日連動)
+  drawPieChart(seed);
+}
+
+function drawPieChart(seed) {
+  const canvas = document.getElementById('energyPie');
+  const ctx = canvas.getContext('2d');
+  const colors = ['#D4AF37', '#4CAF50', '#2196F3', '#F44336', '#795548'];
+  const labels = ['金', '木', '水', '火', '土'];
   
-  // 穿搭與飲食 (加上顏色小圓圈)
-  document.getElementById('outfitAdvice').innerHTML = `<span class="color-dot" style="background:${field.color}"></span>建議色：${field.outfit}`;
-  document.getElementById('foodAdvice').textContent = `🍵 能量飲食：${field.food}`;
-  
-  // 金句
-  const randomQuote = field.quotes[Math.floor(Math.random()*field.quotes.length)];
-  document.getElementById('quoteText').textContent = randomQuote;
-  
-  initParticles(field.color);
+  // 生成隨機但固定的百分比
+  let p = [10, 10, 10, 10, 10];
+  let remaining = 50;
+  for(let i=0; i<5; i++) {
+    let add = (seed + i * 7) % 20;
+    p[i] += add;
+    remaining -= add;
+  }
+  p[0] += remaining; // 補足 100%
+
+  let lastEnd = 0;
+  const legend = document.getElementById('pieLegend');
+  legend.innerHTML = '';
+
+  p.forEach((val, i) => {
+    ctx.beginPath();
+    ctx.moveTo(100, 100);
+    ctx.arc(100, 100, 80, lastEnd, lastEnd + (Math.PI * 2 * (val/100)));
+    ctx.fillStyle = colors[i];
+    ctx.fill();
+    lastEnd += (Math.PI * 2 * (val/100));
+    
+    // 圖例
+    legend.innerHTML += `<div style="display:flex; align-items:center;"><span style="width:10px; height:10px; background:${colors[i]}; border-radius:50%; margin-right:5px;"></span>${labels[i]} ${val}%</div>`;
+  });
 }
 
 function initParticles(color) {
   const canvas = document.getElementById('particleCanvas');
   const ctx = canvas.getContext('2d');
-  canvas.width = 200; canvas.height = 200;
+  canvas.width = 220; canvas.height = 220;
   let particles = [];
-  for(let i=0; i<30; i++) {
+  for(let i=0; i<40; i++) {
     particles.push({
       x: Math.random()*canvas.width, y: canvas.height+10,
-      vx: (Math.random()-0.5)*2, vy: -(Math.random()*2+1),
-      r: Math.random()*3+1, life: 1
+      vx: (Math.random()-0.5)*2, vy: -(Math.random()*3+1),
+      life: 1
     });
   }
   function draw() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
     particles.forEach(p => {
-      p.x+=p.vx; p.y+=p.vy; p.life-=0.008;
-      if(p.life<=0) return;
-      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle = color; ctx.globalAlpha = p.life*0.7;
-      ctx.fill(); ctx.globalAlpha=1;
+      p.y += p.vy; p.life -= 0.01;
+      if(p.life > 0) {
+        ctx.fillStyle = color; ctx.globalAlpha = p.life;
+        ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI*2); ctx.fill();
+      }
     });
-    requestAnimationFrame(draw);
+    if(particles.some(p => p.life > 0)) requestAnimationFrame(draw);
   }
   draw();
 }
 
 function openLineConsult() {
-  window.open('https://line.me/R/ti/p/@m-master', '_blank');
-}
-
-function shareResult() {
-  const url = 'https://m-master1314.com/energy-scan';
-  const text = `✨ 我剛完成了能量掃描！今日能量天氣：${currentField.weatherTitle} \n👉 免費測你的能量：${url}`;
-  if(navigator.share) {
-    navigator.share({title: '運M大師', text: text, url: url});
-  } else {
-    navigator.clipboard.writeText(text).then(() => alert('分享文案已複製 ✦'));
-  }
+  if(!currentResult) return;
+  const msg = `你好！我剛完成了 M-Master 能量掃描：\n\n【磁場】${currentResult.name}\n【診斷】${currentResult.demon}\n\n我想領取今日完整化解方案，請提供專業指引。謝謝！`;
+  const url = `https://line.me/R/oaMessage/${lineId}/?${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
 }
 </script>
 </body>
